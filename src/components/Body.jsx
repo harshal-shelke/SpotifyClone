@@ -5,7 +5,7 @@ import { useStateProvider } from "../utils/StateProvider";
 import axios from "axios";
 import { reducerCases } from "../utils/Constants";
 
-export default function Body({headerBackground}) {
+export default function Body({ headerBackground }) {
   const [{ token, selectedPlaylistId, selectedPlaylist }, dispatch] =
     useStateProvider();
 
@@ -43,14 +43,50 @@ export default function Body({headerBackground}) {
     getInitialPlay();
   }, [token, dispatch, selectedPlaylistId]);
 
-  const msTomin=(ms)=>{
-    const min=Math.floor(ms/60000);
-    const sec=((ms%60000)/1000).toFixed(0);
-    return min+ ":" +(sec <10 ? "0" : "")+ sec;
-  }
+  const msTomin = (ms) => {
+    const min = Math.floor(ms / 60000);
+    const sec = ((ms % 60000) / 1000).toFixed(0);
+    return min + ":" + (sec < 10 ? "0" : "") + sec;
+  };
+
+  const playTrack = async (
+    id,
+    name,
+    artists,
+    image,
+    context_uri,
+    track_number
+  ) => {
+    const response = await axios.put(
+      `https://api.spotify.com/v1/me/player/play`,
+      {
+        context_uri,
+        offset:{
+          position:track_number-1,
+        },
+        position_ms:0,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if(response.status===204){
+      const currentlyPlaying={
+        id,name,image,artists,
+      };
+      dispatch({type:reducerCases.SET_PLAYING,currentlyPlaying});
+      dispatch({type:reducerCases.SET_PLAYER_STATE,playerState:true});
+    }
+    else{
+      dispatch({type:reducerCases.SET_PLAYER_STATE,playerState:true});
+    }
+  };
 
   return (
-    <Container headerBackground={headerBackground} >
+    <Container headerBackground={headerBackground}>
       {selectedPlaylist && (
         <>
           <div className="playlist">
@@ -96,7 +132,20 @@ export default function Body({headerBackground}) {
                   index
                 ) => {
                   return (
-                    <div className="row" key={id}>
+                    <div
+                      className="row"
+                      key={id}
+                      onClick={() =>
+                        playTrack(
+                          id,
+                          name,
+                          artists,
+                          image,
+                          context_uri,
+                          track_number
+                        )
+                      }
+                    >
                       <div className="col">
                         <span>{index + 1}</span>
                       </div>
@@ -129,83 +178,79 @@ export default function Body({headerBackground}) {
 }
 
 const Container = styled.div`
-.playlist{
-  margin:0 2rem;
-  display:flex;
-  align-items:center;
-  gap:2rem;
+  .playlist {
+    margin: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 
-  .image{
-    img{
-      height:15rem;
-      box-shadows:rgba(0,0,0,0.25) 0px 25px 50px -12px;
+    .image {
+      img {
+        height: 15rem;
+        box-shadows: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+      }
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      color: #e0dede;
+
+      .title {
+        color: white;
+        font-size: 4rem;
+      }
     }
   }
-
-  .details{
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-    color: #e0dede;
-
-    .title{
-      color:white;
-      font-size:4rem;
+  .list {
+    .header__row {
+      display: grid;
+      grid-template-columns: 0.3fr 3fr 2fr 0.1fr;
+      color: #dddcdc;
+      margin: 1rem 0 0 0;
+      position: sticky;
+      top: 15vh;
+      padding: 1rem 3rem;
+      transition: 0.3s ease-in-out;
+      background-color: ${({ headerBackground }) =>
+        headerBackground ? "#000000dc" : "none"};
     }
-  }
-}
-.list{
-  .header__row{
-    display:grid;
-    grid-template-columns:0.3fr 3fr 2fr 0.1fr;
-    color:#dddcdc;
-    margin:1rem 0 0 0;
-    position:sticky;
-    top:15vh;
-    padding:1rem 3rem;
-    transition:0.3s ease-in-out;
-    background-color: ${({ headerBackground }) =>
-    headerBackground ? "#000000dc" : "none"};
-  }
 
-    .tracks{
-      margin:0 2rem;
-      display:flex;
-      flex-direction:column;
-      margin-bottom:5rem;
+    .tracks {
+      margin: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 5rem;
 
-      .row{
-        padding:0.5rem 1rem;
-        display:grid;
-        grid-template-columns:0.3fr 3.1fr 1.9fr 0.1fr;
+      .row {
+        padding: 0.5rem 1rem;
+        display: grid;
+        grid-template-columns: 0.3fr 3.1fr 1.9fr 0.1fr;
 
-        &:hover{
-          background-color:rgba(0,0,0,0.7);
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.7);
         }
 
-        .col{
-          display:flex;
-          align-items:center;
-          color:#dddcdc;
+        .col {
+          display: flex;
+          align-items: center;
+          color: #dddcdc;
 
-          img{
-            height:50px;
+          img {
+            height: 50px;
           }
         }
-        .detail{
-          display:flex;
-          gap:1rem;
+        .detail {
+          display: flex;
+          gap: 1rem;
 
-          .info{
-            display:flex;
-            flex-direction:column;
+          .info {
+            display: flex;
+            flex-direction: column;
           }
         }
-
-      
+      }
     }
   }
-}
-
-
 `;
