@@ -43,8 +43,14 @@ export default function Body() {
     getInitialPlay();
   }, [token, dispatch, selectedPlaylistId]);
 
+  const msTomin=(ms)=>{
+    const min=Math.floor(ms/60000);
+    const sec=((ms%60000)/1000).toFixed(0);
+    return min+ ":" +(sec <10 ? "0" : "")+ sec;
+  }
+
   return (
-    <Container>
+    <Container >
       {selectedPlaylist && (
         <>
           <div className="playlist">
@@ -108,7 +114,7 @@ export default function Body() {
                         <span>{album}</span>
                       </div>
                       <div className="col">
-                        <span>{duration}</span>
+                        <span>{msTomin(duration)}</span>
                       </div>
                     </div>
                   );
@@ -158,6 +164,7 @@ const Container = styled.div`
     top:15vh;
     padding:1rem 3rem;
     transition:0.3s ease-in-out;
+    background-color: none;
   }
 
     .tracks{
@@ -169,10 +176,29 @@ const Container = styled.div`
       .row{
         padding:0.5rem 1rem;
         display:grid;
-        grid-template-columns:0.3fr 3.1fr 2fr 0.1fr;
+        grid-template-columns:0.3fr 3.1fr 1.9fr 0.1fr;
 
         &:hover{
           background-color:rgba(0,0,0,0.7);
+        }
+
+        .col{
+          display:flex;
+          align-items:center;
+          color:#dddcdc;
+
+          img{
+            height:50px;
+          }
+        }
+        .detail{
+          display:flex;
+          gap:1rem;
+
+          .info{
+            display:flex;
+            flex-direction:column;
+          }
         }
 
       

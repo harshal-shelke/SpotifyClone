@@ -10,6 +10,20 @@ import { reducerCases } from "../utils/Constants";
 
 export default function Spotify() {
   const [{ token }, dispatch] = useStateProvider();
+//   const bodyRef = useRef();
+//   const [navbackground, setnavbackground] = useState(false);
+//   const [headerbackground, setheaderbackground] = useState(false);
+
+//   const bodyScrolled = () => {
+//     bodyRef.current.scrollTop >= 30
+//       ? setnavbackground(true)
+//       : setnavbackground(false);
+
+//       bodyRef.current.scrollTop >= 268
+//       ? setheaderbackground(true)
+//       : setheaderbackground(false);
+
+//   };
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -24,7 +38,7 @@ export default function Spotify() {
         userName: data.display_name,
         userEmail: data.email,
       };
-    
+
       dispatch({ type: reducerCases.SET_USER, userInfo });
     };
     getUserInfo();
@@ -33,10 +47,10 @@ export default function Spotify() {
     <Container>
       <div className="spotify__body">
         <Sidebar />
-        <div className="body">
-          <Navbar />
+        <div className="body" >
+          <Navbar  />
           <div className="body__content">
-            <Body />
+            <Body  />
           </div>
         </div>
       </div>
@@ -65,6 +79,12 @@ const Container = styled.div`
       height: 100%;
       width: 100%;
       overflow: auto;
+      &::-webkit-scrollbar{
+        width:0.7rem;
+        &-thumb{
+            background-color:rgba(255,255,255,0.6)
+        }
+    }
     }
   }
 `;
