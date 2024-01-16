@@ -4,7 +4,7 @@ import styled from "styled-components";
 export default function Login() {
   const handleClick = () => {
     const clientID = "1af0fb5be0ee425f9a19e55f8fe99df1";
-    const redirectUrl = "http://localhost:3000/";
+    const redirectUrl = "https://spotifyclone-6vp1.onrender.com";
     const apiurl = "https://accounts.spotify.com/authorize";
     const scope = [
       "user-read-email",
