@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default function Login() {
   const handleClick = () => {
-    const clientID = "1af0fb5be0ee425f9a19e55f8fe99df1";
+    const clientID = process.env.REACT_APP_CLIENT_ID;
     const redirectUrl = "http://localhost:3000/";
     const apiurl = "https://accounts.spotify.com/authorize";
     const scope = [
@@ -24,7 +24,7 @@ export default function Login() {
     <Container>
       <img
         src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Black.png"
-        alt=""
+        alt="Spotify img"
       />
       <button onClick={handleClick}>Connect Spotify</button>
     </Container>
