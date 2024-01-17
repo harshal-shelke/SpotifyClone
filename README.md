@@ -45,10 +45,16 @@ This project is a Spotify clone built using ReactJS and Styled Components. It in
                      
          npm start
     
+5. **Screenshots:**
+
 ![Alt text](<public/Screenshots/Screenshot (83).png>)
+
 ![Alt text](<public/Screenshots/Screenshot (84).png>)
+
 ![Alt text](<public/Screenshots/Screenshot (87).png>)
+
 ![Alt text](<public/Screenshots/Screenshot (88).png>)
+
 ![Alt text](<public/Screenshots/Screenshot (89).png>)
 
 
