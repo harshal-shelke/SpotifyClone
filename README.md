@@ -34,7 +34,7 @@ This project is a Spotify clone built using ReactJS and Styled Components. It in
          npm install react-icons
          npm install axios
 
-4. **Set up Spotify API credentials:**
+3. **Set up Spotify API credentials:**
 
    Obtain your API key from the Spotify Developer Dashboard.
    Create a .env file in the project root and add your credentials:
@@ -44,7 +44,7 @@ This project is a Spotify clone built using ReactJS and Styled Components. It in
 4.**Start the application:**
                      
          npm start
-    
+
 5. **Screenshots:**
 
 ![Alt text](<public/Screenshots/Screenshot (83).png>)
